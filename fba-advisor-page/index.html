@@ -689,6 +689,136 @@
       text-align: center;
     }
 
+    /* ─── RAG Chat ───────────────────────────── */
+    .rag-chat {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 240;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .rag-launch {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: var(--az-orange);
+      color: var(--az-dark);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+    }
+    .rag-launch:hover { background: var(--az-orange-h); }
+    .rag-panel {
+      width: min(380px, calc(100vw - 24px));
+      height: min(560px, 72vh);
+      background: #fff;
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .rag-panel[hidden] { display: none; }
+    .rag-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--az-border);
+      background: var(--az-light);
+    }
+    .rag-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--az-dark);
+      line-height: 1.3;
+    }
+    .rag-subtitle {
+      font-size: 11px;
+      color: var(--az-muted);
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+    .rag-close {
+      border: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      background: #fff;
+      color: var(--az-muted);
+    }
+    .rag-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #fff;
+    }
+    .rag-msg {
+      max-width: 90%;
+      padding: 9px 11px;
+      border-radius: 12px;
+      line-height: 1.5;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .rag-msg-assistant {
+      align-self: flex-start;
+      background: var(--az-light);
+      color: var(--az-text);
+      border: 1px solid var(--az-border);
+    }
+    .rag-msg-user {
+      align-self: flex-end;
+      background: var(--az-navy);
+      color: #fff;
+    }
+    .rag-form {
+      border-top: 1px solid var(--az-border);
+      padding: 10px;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+    .rag-input {
+      width: 100%;
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius);
+      padding: 9px 10px;
+      font: inherit;
+      min-height: 42px;
+      max-height: 120px;
+      resize: vertical;
+    }
+    .rag-send {
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--az-navy);
+      color: #fff;
+      font-weight: 600;
+      padding: 9px 14px;
+      cursor: pointer;
+      height: 42px;
+    }
+    .rag-send:disabled { opacity: 0.55; cursor: not-allowed; }
+    .rag-note {
+      font-size: 11px;
+      color: var(--az-muted);
+      padding: 0 12px 10px;
+      background: #fff;
+    }
+
     /* ─── Reveal animation ──────────────────────── */
     .reveal {
       opacity: 0;
@@ -716,6 +846,8 @@
       .footer-inner { flex-direction: column; align-items: flex-start; }
       .footer-right { text-align: left; }
       .footer-credit { display: none; }
+      .rag-chat { right: 12px; bottom: 12px; left: 12px; align-items: stretch; }
+      .rag-panel { width: 100%; height: min(520px, 68vh); }
     }
 
     @media print {
@@ -1303,6 +1435,35 @@ help%2Fhub%2Freference%2Fexternal%2FG200213130</code>
 
 </main>
 
+<div class="rag-chat" id="ragChat">
+  <button type="button" class="rag-launch" id="ragLaunch" aria-controls="ragPanel" aria-expanded="false">RAG 客服</button>
+  <section class="rag-panel" id="ragPanel" hidden>
+    <div class="rag-header">
+      <div>
+        <div class="rag-title">RAG 客服助手</div>
+        <div class="rag-subtitle">基于本页内容问答，复杂问题可转人工</div>
+      </div>
+      <button type="button" class="rag-close" id="ragClose" aria-label="关闭对话框">×</button>
+    </div>
+    <div class="rag-messages" id="ragMessages">
+      <div class="rag-msg rag-msg-assistant">你好，我是 RAG 客服助手。你可以问我“Parts 怎么开启？”</div>
+    </div>
+    <form class="rag-form" id="ragForm">
+      <textarea class="rag-input" id="ragInput" rows="2" placeholder="请输入你的问题..." required></textarea>
+      <button type="submit" class="rag-send" id="ragSend">发送</button>
+    </form>
+    <div class="rag-note">提示：请在 <code>window.RAG_CHAT_CONFIG.endpoint</code> 配置你的 RAG API 地址。</div>
+  </section>
+</div>
+
+<script>
+  window.RAG_CHAT_CONFIG = window.RAG_CHAT_CONFIG || {
+    endpoint: "",
+    headers: {},
+    timeoutMs: 20000
+  };
+</script>
+
 <script>
   /* Scroll reveal */
   const revealEls = document.querySelectorAll('.reveal');
@@ -1333,6 +1494,120 @@ help%2Fhub%2Freference%2Fexternal%2FG200213130</code>
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  /* RAG chat widget */
+  (function initRagChat() {
+    const launchEl = document.getElementById('ragLaunch');
+    const panelEl = document.getElementById('ragPanel');
+    const closeEl = document.getElementById('ragClose');
+    const formEl = document.getElementById('ragForm');
+    const inputEl = document.getElementById('ragInput');
+    const sendEl = document.getElementById('ragSend');
+    const messagesEl = document.getElementById('ragMessages');
+
+    if (!launchEl || !panelEl || !closeEl || !formEl || !inputEl || !sendEl || !messagesEl) return;
+
+    const config = Object.assign({
+      endpoint: "",
+      headers: {},
+      timeoutMs: 20000
+    }, window.RAG_CHAT_CONFIG || {});
+
+    const state = {
+      sessionId: "rag-" + Math.random().toString(36).slice(2, 10),
+      history: []
+    };
+
+    const togglePanel = (open) => {
+      panelEl.hidden = !open;
+      launchEl.setAttribute('aria-expanded', String(open));
+      if (open) inputEl.focus();
+    };
+
+    const addMessage = (role, text) => {
+      const div = document.createElement('div');
+      div.className = "rag-msg " + (role === 'user' ? 'rag-msg-user' : 'rag-msg-assistant');
+      div.textContent = text;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+
+    const setBusy = (busy) => {
+      sendEl.disabled = busy;
+      inputEl.disabled = busy;
+      sendEl.textContent = busy ? '发送中...' : '发送';
+    };
+
+    const resolveAnswer = (data) => {
+      if (typeof data === 'string' && data.trim()) return data.trim();
+      if (!data || typeof data !== 'object') return "";
+      if (typeof data.answer === 'string') return data.answer;
+      if (typeof data.output === 'string') return data.output;
+      if (typeof data.message === 'string') return data.message;
+      if (typeof data.output_text === 'string') return data.output_text;
+      if (Array.isArray(data.output_text)) return data.output_text.join("\n");
+      if (data.choices && data.choices[0] && data.choices[0].message && typeof data.choices[0].message.content === 'string') {
+        return data.choices[0].message.content;
+      }
+      return "";
+    };
+
+    const requestRagAnswer = async (question) => {
+      const payload = {
+        question,
+        page_path: window.location.pathname,
+        page_title: document.title,
+        session_id: state.sessionId,
+        history: state.history.slice(-8)
+      };
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), Number(config.timeoutMs) || 20000);
+      try {
+        const res = await fetch(config.endpoint, {
+          method: 'POST',
+          headers: Object.assign({ 'Content-Type': 'application/json' }, config.headers || {}),
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const answer = resolveAnswer(data);
+        if (!answer) throw new Error("No answer text in response");
+        return answer;
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    };
+
+    launchEl.addEventListener('click', () => togglePanel(panelEl.hidden));
+    closeEl.addEventListener('click', () => togglePanel(false));
+
+    formEl.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const question = inputEl.value.trim();
+      if (!question) return;
+      inputEl.value = "";
+      addMessage('user', question);
+      state.history.push({ role: 'user', content: question });
+
+      if (!config.endpoint) {
+        addMessage('assistant', "RAG 接口未配置。请先在 window.RAG_CHAT_CONFIG.endpoint 填入后端地址。");
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const answer = await requestRagAnswer(question);
+        addMessage('assistant', answer);
+        state.history.push({ role: 'assistant', content: answer });
+      } catch (error) {
+        addMessage('assistant', "客服暂时不可用，请稍后重试或联系人工客服。");
+      } finally {
+        setBusy(false);
+      }
+    });
+  })();
 </script>
 
 
