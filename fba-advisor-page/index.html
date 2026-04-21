@@ -103,14 +103,6 @@
       color: rgba(255,255,255,0.45);
       padding-left: 38px;
     }
-    .sidebar-logo-meta {
-      font-size: 10px;
-      color: rgba(255,255,255,0.55);
-      padding-left: 38px;
-      margin-top: 4px;
-      line-height: 1.5;
-    }
-
     .sidebar-section {
       padding: 12px 0;
     }
@@ -684,6 +676,10 @@
       line-height: 1.8;
       flex-shrink: 0;
     }
+    .footer-credit {
+      margin-top: 6px;
+      color: var(--az-text);
+    }
     .footer-bottom {
       margin-top: 16px;
       padding-top: 16px;
@@ -719,6 +715,7 @@
       .trigger-grid { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
       .footer-right { text-align: left; }
+      .footer-credit { display: none; }
     }
 
     @media print {
@@ -740,7 +737,6 @@
       <div class="sidebar-logo-text">amazon</div>
     </div>
     <div class="sidebar-logo-sub">HASP FBA工具方案 · 2026</div>
-    <div class="sidebar-logo-meta">Tool owner: guangfl@ | Sponsor: liuzh@ ♥ lunayu@ ♥</div>
   </div>
 
   <div class="sidebar-section">
@@ -1296,6 +1292,7 @@ help%2Fhub%2Freference%2Fexternal%2FG200213130</code>
           <div>整理日期：2026-04-20</div>
           <div>面向：FBA 卖家</div>
           <div>阅读时长：约 3 分钟</div>
+          <div class="footer-credit">Tool owner: guangfl@ | Sponsor: liuzh@ 🧡 lunayu@ 🧡</div>
         </div>
       </div>
       <div class="footer-bottom">
