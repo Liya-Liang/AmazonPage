@@ -33,36 +33,6 @@ python3 -m http.server 8080
 - `assets/returns-guide.pdf`
 - `assets/proactive-mfi-claim.docx`
 
-## RAG 客服接入
-
-页面已内置右下角 `RAG 客服` 组件。默认不会请求后端，需要先配置接口地址：
-
-在 `index.html` 中找到：
-
-```html
-window.RAG_CHAT_CONFIG = {
-  endpoint: "",
-  headers: {},
-  timeoutMs: 20000
-};
-```
-
-将 `endpoint` 改为你的后端地址（例如 `https://api.example.com/rag/chat`）。
-
-前端会 `POST` JSON：
-
-```json
-{
-  "question": "用户输入问题",
-  "page_path": "/AmazonPage/fba-advisor-page/",
-  "page_title": "页面标题",
-  "session_id": "rag-xxxx",
-  "history": [{"role":"user","content":"..."}]
-}
-```
-
-后端可返回任一字段用于展示答案：`answer` / `output` / `message` / `output_text`，或 OpenAI 风格 `choices[0].message.content`。
-
 ## 技术栈
 
 - 单 HTML 文件，内联 CSS + JS
