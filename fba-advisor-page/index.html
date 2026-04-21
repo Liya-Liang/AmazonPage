@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FBA 售后功能方案 — 亚马逊官方整理</title>
+  <meta name="description" content="亚马逊 FBA 卖家必读：BI、Parts、Partial Refund、Proactive MFI Claim 四大售后功能一文读懂。">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── Variables (Amazon palette) ──────────────── */
+    :root {
+      --az-navy:      #232F3E;
+      --az-dark:      #0F1111;
+      --az-orange:    #FF9900;
+      --az-orange-h:   #E88B00;
+      --az-blue:      #007185;
+      --az-light:     #F3F3F3;
+      --az-surface:   #FFFFFF;
+      --az-border:    #D5D9D9;
+      --az-text:      #0F1111;
+      --az-muted:     #565959;
+      --az-success:   #067D62;
+
+      --c-bi:         #007185;
+      --c-bi-bg:      #E8F4F7;
+      --c-parts:      #0655A5;
+      --c-parts-bg:   #EAF0F8;
+      --c-partial:    #C45500;
+      --c-partial-bg: #FEF0E3;
+      --c-mfi:        #4A154B;
+      --c-mfi-bg:     #F3E8F5;
+
+      --radius:       8px;
+      --radius-sm:    4px;
+      --radius-lg:    12px;
+      --shadow-sm:    0 1px 3px rgba(15,17,17,0.08);
+      --shadow-md:    0 4px 12px rgba(15,17,17,0.10);
+      --shadow-card:  0 2px 8px rgba(15,17,17,0.06);
+    }
+
+    /* ─── Reset ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Amazon Ember', 'Amazon Ember VF', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--az-text);
+      background: var(--az-surface);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--az-orange); color: var(--az-dark); }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--az-light); }
+    ::-webkit-scrollbar-thumb { background: var(--az-border); border-radius: 4px; }
+
+    a { color: var(--az-blue); text-decoration: none; }
+    a:hover { color: var(--az-orange); }
+
+    /* ─── Sidebar ───────────────────────────────── */
+    .sidebar {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: 220px;
+      background: var(--az-navy);
+      overflow-y: auto;
+      z-index: 100;
+      padding: 0;
+    }
+
+    .sidebar-logo {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .sidebar-logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .sidebar-logo-icon {
+      width: 28px; height: 28px;
+      background: var(--az-orange);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sidebar-logo-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .sidebar-logo-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      padding-left: 38px;
+    }
+
+    .sidebar-section {
+      padding: 12px 0;
+    }
+    .sidebar-section + .sidebar-section {
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 8px 20px 4px;
+    }
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 20px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      cursor: pointer;
+      transition: background 120ms, color 120ms;
+      text-decoration: none;
+    }
+    .sidebar-nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+    .sidebar-nav-item.active { background: rgba(255,153,0,0.15); color: var(--az-orange); }
+    .sidebar-nav-item .s-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+      opacity: 0.5;
+    }
+    .sidebar-nav-item.active .s-dot { opacity: 1; }
+    .sidebar-nav-item[data-c="bi"]      { --sc: var(--c-bi); }
+    .sidebar-nav-item[data-c="parts"]   { --sc: var(--c-parts); }
+    .sidebar-nav-item[data-c="partial"]  { --sc: var(--c-partial); }
+    .sidebar-nav-item[data-c="mfi"]     { --sc: var(--c-mfi); }
+    .sidebar-nav-item.active[data-c] { color: var(--sc); }
+
+    /* ─── Main ──────────────────────────────────── */
+    .main {
+      margin-left: 220px;
+      min-height: 100vh;
+    }
+
+    /* ─── Mobile Nav ─────────────────────────────── */
+    .mobile-topbar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--az-navy);
+      padding: 12px 16px;
+      align-items: center;
+      gap: 12px;
+    }
+    .mobile-topbar-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      flex: 1;
+    }
+    .mobile-topbar-tag {
+      font-size: 10px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ─── Hero ──────────────────────────────────── */
+    #hero {
+      background: var(--az-navy);
+      color: #fff;
+      padding: 72px 64px 64px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow-line {
+      width: 20px; height: 1.5px;
+      background: var(--az-orange);
+    }
+    .hero-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--az-orange);
+    }
+    .hero-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      max-width: 60ch;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .hero-stat-num {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--az-orange);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Content wrapper ───────────────────────── */
+    .content {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ─── Section headers ───────────────────────── */
+    .section {
+      padding: 56px 0;
+    }
+    .section + .section { border-top: 1px solid var(--az-border); }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--az-muted);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--az-dark);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .section-desc {
+      font-size: 14px;
+      color: var(--az-muted);
+      max-width: 60ch;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    /* ─── Overview cards ────────────────────────── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .ov-card {
+      background: var(--az-surface);
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 180ms, transform 180ms;
+    }
+    .ov-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .ov-card-top {
+      padding: 16px 16px 12px;
+    }
+    .ov-card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .ov-card[data-c="bi"]      .ov-card-tag { background: var(--c-bi-bg);      color: var(--c-bi); }
+    .ov-card[data-c="parts"]   .ov-card-tag { background: var(--c-parts-bg);   color: var(--c-parts); }
+    .ov-card[data-c="partial"] .ov-card-tag { background: var(--c-partial-bg); color: var(--c-partial); }
+    .ov-card[data-c="mfi"]     .ov-card-tag { background: var(--c-mfi-bg);     color: var(--c-mfi); }
+
+    .ov-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--az-dark);
+      margin-bottom: 2px;
+    }
+    .ov-card-en {
+      font-size: 11px;
+      color: var(--az-muted);
+      margin-bottom: 10px;
+    }
+    .ov-card-desc {
+      font-size: 12px;
+      color: var(--az-muted);
+      line-height: 1.55;
+    }
+    .ov-card-bar {
+      height: 3px;
+    }
+    .ov-card[data-c="bi"]      .ov-card-bar { background: var(--c-bi); }
+    .ov-card[data-c="parts"]   .ov-card-bar { background: var(--c-parts); }
+    .ov-card[data-c="partial"] .ov-card-bar { background: var(--c-partial); }
+    .ov-card[data-c="mfi"]     .ov-card-bar { background: var(--c-mfi); }
+
+    /* ─── Feature blocks ───────────────────────── */
+    .feat-block {
+      background: var(--az-surface);
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feat-block-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--az-border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--az-light);
+    }
+    .feat-block[data-c="bi"]      .feat-block-header { border-left: 4px solid var(--c-bi); }
+    .feat-block[data-c="parts"]   .feat-block-header { border-left: 4px solid var(--c-parts); }
+    .feat-block[data-c="partial"] .feat-block-header { border-left: 4px solid var(--c-partial); }
+    .feat-block[data-c="mfi"]     .feat-block-header { border-left: 4px solid var(--c-mfi); }
+
+    .feat-icon {
+      width: 40px; height: 40px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .feat-block[data-c="bi"]      .feat-icon { background: var(--c-bi-bg);      color: var(--c-bi); }
+    .feat-block[data-c="parts"]   .feat-icon { background: var(--c-parts-bg);   color: var(--c-parts); }
+    .feat-block[data-c="partial"] .feat-icon { background: var(--c-partial-bg); color: var(--c-partial); }
+    .feat-block[data-c="mfi"]    .feat-icon { background: var(--c-mfi-bg);    color: var(--c-mfi); }
+    .feat-icon svg { width: 20px; height: 20px; }
+
+    .feat-title { font-size: 16px; font-weight: 700; color: var(--az-dark); }
+    .feat-en    { font-size: 12px; color: var(--az-muted); margin-top: 2px; }
+
+    .feat-block-body {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .feat-col h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--az-muted);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--az-border);
+    }
+    .feat-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .feat-col li {
+      font-size: 13px;
+      color: var(--az-text);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .feat-col li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+    }
+    .feat-block[data-c="bi"]      .feat-col li::before { background: var(--c-bi); }
+    .feat-block[data-c="parts"]   .feat-col li::before { background: var(--c-parts); }
+    .feat-block[data-c="partial"] .feat-col li::before { background: var(--c-partial); }
+    .feat-block[data-c="mfi"]    .feat-col li::before { background: var(--c-mfi); }
+
+    /* highlight box */
+    .info-box {
+      background: var(--az-light);
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--az-muted);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+    .info-box strong { color: var(--az-text); }
+    .info-box.warn { background: #FFF8E1; border-color: #FFD740; }
+    .info-box.ok   { background: #E8F5E9; border-color: #81C784; }
+
+    /* steps */
+    .steps { list-style: none; counter-reset: step; }
+    .steps li {
+      counter-increment: step;
+      padding-left: 30px;
+      position: relative;
+      padding-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0; top: 1px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--az-border);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--az-muted);
+    }
+    .steps li:last-child { padding-bottom: 0; }
+    .steps code {
+      background: var(--az-light);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* trigger grid */
+    .trigger-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .trigger-item {
+      background: var(--az-light);
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+    .trigger-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 3px;
+    }
+    .feat-block[data-c="parts"] .trigger-num { color: var(--c-parts); }
+    .trigger-item p { font-size: 12px; color: var(--az-text); max-width: none; }
+    .trigger-item small { display: block; font-size: 11px; color: var(--az-muted); margin-top: 2px; }
+
+    /* flow steps */
+    .flow-list { display: flex; flex-direction: column; gap: 8px; }
+    .flow-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--az-light);
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius-sm);
+    }
+    .flow-num {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--c-mfi-bg);
+      color: var(--c-mfi);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .flow-item p { font-size: 12px; max-width: none; color: var(--az-text); }
+    .flow-item code { font-size: 11px; }
+
+    /* badge pills */
+    .badge-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--az-light);
+      border: 1px solid var(--az-border);
+      border-radius: 99px;
+      padding: 4px 10px;
+      color: var(--az-text);
+    }
+    .badge svg { width: 12px; height: 12px; }
+    .badge.yes { background: #E8F5E9; border-color: #A5D6A7; color: var(--az-success); }
+    .badge.no  { background: #FFEBEE; border-color: #EF9A9A; color: #C62828; }
+
+    /* ─── Strategy ─────────────────────────────── */
+    .strategy-chain {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .chain-node {
+      flex: 1;
+      min-width: 160px;
+      background: var(--az-surface);
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      position: relative;
+      transition: box-shadow 180ms;
+    }
+    .chain-node:hover { box-shadow: var(--shadow-md); }
+    .chain-node[data-c="bi"]      { border-top: 3px solid var(--c-bi); }
+    .chain-node[data-c="parts"]   { border-top: 3px solid var(--c-parts); }
+    .chain-node[data-c="partial"] { border-top: 3px solid var(--c-partial); }
+    .chain-node[data-c="mfi"]    { border-top: 3px solid var(--c-mfi); }
+
+    .chain-step {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .chain-node[data-c="bi"]      .chain-step { color: var(--c-bi); }
+    .chain-node[data-c="parts"]   .chain-step { color: var(--c-parts); }
+    .chain-node[data-c="partial"] .chain-step { color: var(--c-partial); }
+    .chain-node[data-c="mfi"]    .chain-step { color: var(--c-mfi); }
+
+    .chain-node h3 { font-size: 13px; font-weight: 700; color: var(--az-dark); margin-bottom: 2px; }
+    .chain-node .en { font-size: 10px; color: var(--az-muted); margin-bottom: 8px; }
+    .chain-node p  { font-size: 11px; color: var(--az-muted); line-height: 1.5; }
+
+    .chain-arrow {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      color: var(--az-border);
+      padding: 0 6px;
+    }
+    .chain-arrow svg { width: 16px; height: 16px; }
+
+    .strategy-tip {
+      margin-top: 20px;
+      background: var(--az-light);
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .strategy-tip svg { color: var(--az-orange); flex-shrink: 0; margin-top: 1px; }
+    .strategy-tip p { font-size: 13px; color: var(--az-muted); max-width: none; line-height: 1.6; }
+    .strategy-tip strong { color: var(--az-dark); }
+
+    /* ─── Resources ─────────────────────────────── */
+    .resource-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .res-card {
+      background: var(--az-surface);
+      border: 1px solid var(--az-border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: box-shadow 150ms;
+    }
+    .res-card:hover { box-shadow: var(--shadow-sm); }
+    .res-icon {
+      width: 36px; height: 36px;
+      border-radius: 6px;
+      background: var(--az-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--az-muted);
+    }
+    .res-icon svg { width: 18px; height: 18px; }
+    .res-info { flex: 1; min-width: 0; }
+    .res-info h3 { font-size: 13px; font-weight: 700; color: var(--az-dark); margin-bottom: 2px; }
+    .res-info p  { font-size: 12px; color: var(--az-muted); }
+    .res-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--az-light);
+      color: var(--az-muted);
+      padding: 3px 8px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .res-link {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--az-blue);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .res-link:hover { color: var(--az-orange); }
+
+    /* ─── Footer ───────────────────────────────── */
+    .footer {
+      background: var(--az-light);
+      border-top: 1px solid var(--az-border);
+      padding: 32px 0;
+      margin-top: 40px;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .footer-left p {
+      font-size: 12px;
+      color: var(--az-muted);
+      max-width: 55ch;
+      line-height: 1.6;
+    }
+    .footer-right {
+      font-size: 11px;
+      color: var(--az-muted);
+      text-align: right;
+      line-height: 1.8;
+      flex-shrink: 0;
+    }
+    .footer-bottom {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--az-border);
+      font-size: 11px;
+      color: var(--az-muted);
+      text-align: center;
+    }
+
+    /* ─── Reveal animation ──────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── Responsive ────────────────────────────── */
+    @media (max-width: 1024px) {
+      .overview-grid { grid-template-columns: repeat(2, 1fr); }
+      .feat-block-body { grid-template-columns: 1fr; }
+      .strategy-chain { flex-direction: column; }
+      .chain-arrow { transform: rotate(90deg); padding: 4px 0; }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .mobile-topbar { display: flex; }
+      .main { margin-left: 0; }
+      .content { padding: 0 20px; }
+      #hero { padding: 48px 20px 40px; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .trigger-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-right { text-align: left; }
+    }
+
+    @media print {
+      .sidebar, .mobile-topbar { display: none !important; }
+      .main { margin-left: 0; }
+      .feat-block { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Sidebar ──────────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">
+      <div class="sidebar-logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+      </div>
+      <div class="sidebar-logo-text">amazon</div>
+    </div>
+    <div class="sidebar-logo-sub">HASP FBA工具方案 · 2026</div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">开始</div>
+    <a class="sidebar-nav-item" data-target="hero" href="#hero">
+      <span class="s-dot"></span>概览
+    </a>
+    <a class="sidebar-nav-item" data-target="overview" href="#overview">
+      <span class="s-dot"></span>四大功能总览
+    </a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">功能详解</div>
+    <a class="sidebar-nav-item" data-c="bi" data-target="bi" href="#bi">
+      <span class="s-dot"></span>BI 品牌主实时支持
+    </a>
+    <a class="sidebar-nav-item active" data-c="parts" data-target="parts" href="#parts">
+      <span class="s-dot"></span>Parts 零配件补发
+    </a>
+    <a class="sidebar-nav-item" data-c="partial" data-target="partial" href="#partial">
+      <span class="s-dot"></span>Partial Refund
+    </a>
+    <a class="sidebar-nav-item" data-c="mfi" data-target="mfi" href="#mfi">
+      <span class="s-dot"></span>Proactive MFI
+    </a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">延伸</div>
+    <a class="sidebar-nav-item" data-target="strategy" href="#strategy">
+      <span class="s-dot"></span>组合打法
+    </a>
+    <a class="sidebar-nav-item" data-target="resources" href="#resources">
+      <span class="s-dot"></span>参考资料
+    </a>
+  </div>
+</aside>
+
+<!-- ─── Mobile Topbar ─────────────────────────── -->
+<div class="mobile-topbar">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF9900" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+  <div class="mobile-topbar-brand">amazon FBA 售后方案</div>
+  <div class="mobile-topbar-tag">2026</div>
+</div>
+
+<!-- ─── Main ──────────────────────────────────── -->
+<main class="main">
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="content">
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-line"></span>
+        亚马逊全球开店 · FBA 卖家工具方案
+      </div>
+      <h1 class="hero-title">
+        入库、退货、退款——<br>
+        每一步都有<em>更好</em>的选择
+      </h1>
+      <p class="hero-sub">
+        亚马逊为FBA 卖家提供四大FBA功能，能在不改变商品的情况下，降低退货率、节省退款成本、减少人工索赔负担。优先从哪里开始，看完这一页就清楚了。
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">4</div>
+          <div class="hero-stat-label">售后功能</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">~3</div>
+          <div class="hero-stat-label">分钟读完</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">1</div>
+          <div class="hero-stat-label">完整控制链</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="section" id="overview">
+    <div class="content">
+      <div class="section-label reveal visible">四大功能</div>
+      <h2 class="section-title reveal visible">各管一段，组合使用</h2>
+      <p class="section-desc reveal visible">四个功能不是功能清单，而是覆盖不同问题节点的售后工具链。你可以按商品特征优先启用其中最适合的几个。</p>
+
+      <div class="overview-grid reveal visible">
+        <div class="ov-card" data-c="bi">
+          <div class="ov-card-top">
+            <div class="ov-card-tag">买家支持</div>
+            <div class="ov-card-title">品牌主实时支持</div>
+            <div class="ov-card-en">BI — Brand Initiated</div>
+            <div class="ov-card-desc">实时答疑承接买家问题，在退货前抢一次解释机会</div>
+          </div>
+          <div class="ov-card-bar"></div>
+        </div>
+        <div class="ov-card" data-c="parts">
+          <div class="ov-card-top">
+            <div class="ov-card-tag">退货拦截</div>
+            <div class="ov-card-title">零配件补发</div>
+            <div class="ov-card-en">Parts Replacement</div>
+            <div class="ov-card-desc">补发零件替代退货，约 71% 顾客收到补件后保留商品</div>
+          </div>
+          <div class="ov-card-bar"></div>
+        </div>
+        <div class="ov-card" data-c="partial">
+          <div class="ov-card-top">
+            <div class="ov-card-tag">退款替代</div>
+            <div class="ov-card-title">部分退款</div>
+            <div class="ov-card-en">Partial Refund</div>
+            <div class="ov-card-desc">部分退款换保留商品，节省运费、处理费和重新包装成本</div>
+          </div>
+          <div class="ov-card-bar"></div>
+        </div>
+        <div class="ov-card" data-c="mfi">
+          <div class="ov-card-top">
+            <div class="ov-card-tag">入仓索赔</div>
+            <div class="ov-card-title">货件差异调查</div>
+            <div class="ov-card-en">Proactive MFI Claim</div>
+            <div class="ov-card-desc">高客单价入仓差异自动调查，赔付周期缩短至 30 天</div>
+          </div>
+          <div class="ov-card-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BI ──────────────────────────────────── -->
+  <section class="section" id="bi">
+    <div class="content">
+      <div class="section-label reveal visible">功能详解 · 01</div>
+      <h2 class="section-title reveal visible">品牌主实时支持</h2>
+      <p class="section-desc reveal visible">PLS（商品生命周期支持）核心能力之一。让品牌卖家客服直接为顾客提供实时答疑，在买家准备退货前抢一次解释机会。</p>
+
+      <div class="feat-block" data-c="bi">
+        <div class="feat-block-header">
+          <div class="feat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          </div>
+          <div>
+            <div class="feat-title">BI — Brand Initiated</div>
+            <div class="feat-en">品牌主实时支持 · PLS 核心能力</div>
+          </div>
+        </div>
+        <div class="feat-block-body">
+          <div class="feat-col">
+            <h4>这是什么</h4>
+            <ul>
+              <li>品牌卖家通过实时聊天，直接承接买家在安装、使用、兼容方面的疑问</li>
+              <li>减少因"不会用"或"误解商品"而产生的冲动退货</li>
+              <li>适合安装复杂、说明门槛高、需要本土语言客服的商品</li>
+            </ul>
+            <div class="info-box">
+              <strong>适合谁：</strong>有独立客服团队、支持本土语言和当地时区在线的品牌卖家。
+            </div>
+          </div>
+          <div class="feat-col">
+            <h4>卖家利益点</h4>
+            <ul>
+              <li>在买家正式退货前抢一次解释机会，降低退货率</li>
+              <li>与售后视频、操作文档、联系制造商形成组合拳</li>
+              <li>提升买家满意度，减少因误解导致的差评</li>
+            </ul>
+            <h4 style="margin-top:20px;">触点</h4>
+            <ul>
+              <li>订单页面「获取产品支持」入口</li>
+              <li>退货流程中</li>
+              <li>客服中心「获取商品支持」入口</li>
+            </ul>
+          </div>
+          <div class="feat-col" style="grid-column: 1/-1;">
+            <h4>如何开启</h4>
+            <ul class="steps">
+              <li>具备独立客服团队，支持本土语言和当地时区在线</li>
+              <li>与经理确认有开通资格</li>
+              <li>在卖家后台点击订单→洞察与机遇→设置→注册商品支持进入到PLS page（https://sellercentral.amazon.com/productsupport）</li>
+              <li>选择“Connect Your Existing Support Services”并进入填写和提交注册表</li><li>PLS团队在15个工作日内确认注册并发送电子邮件确认注册成功</li>
+            </ul>
+            <div class="info-box warn">
+              <strong>注意：</strong>若卖家选择开通包括Chat功能，PLS的确认邮件内将会包含供卖家客服登录Amazon Connect平台的登录凭证，卖家必须在确认登录凭证有效后，需回复该邮件确认有效性，后续才会正式生效。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Parts ────────────────────────────────── -->
+  <section class="section" id="parts">
+    <div class="content">
+      <div class="section-label reveal visible">功能详解 · 02</div>
+      <h2 class="section-title reveal visible">零配件补发</h2>
+      <p class="section-desc reveal visible">对缺件、损坏、兼容问题优先补发零件——亚马逊数据显示约 71% 顾客收到补件后保留商品，无需整单退回。</p>
+
+      <div class="feat-block" data-c="parts">
+        <div class="feat-block-header">
+          <div class="feat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+          </div>
+          <div>
+            <div class="feat-title">Parts Replacement</div>
+            <div class="feat-en">零配件补发 · 注册免费</div>
+          </div>
+        </div>
+        <div class="feat-block-body">
+          <div class="feat-col">
+            <h4>这是什么</h4>
+            <ul>
+              <li>在退货窗口内，买家可直接申请补发缺失或损坏的配件</li>
+              <li>无需退回整件商品，配件免费提供</li>
+              <li>亚马逊在顾客旅程四个关键节点智能展示此选项</li>
+            </ul>
+            <div class="info-box ok">
+              <strong>注册免费。</strong>卖家承担配件成本和配送费，但节省双向运费、处理费、重新包装成本，且避免全额退款。
+            </div>
+            <h4 style="margin-top:20px;">卖家利益点</h4>
+            <ul>
+              <li>约 71% 顾客收到替换零件后保留商品（亚马逊研究数据）</li>
+              <li>避免整单退货与全额退款</li>
+              <li>节省双向运费、处理费、重新包装成本</li>
+            </ul>
+          </div>
+          <div class="feat-col">
+            <h4>买家触点（4 个入口）</h4>
+            <div class="trigger-grid">
+              <div class="trigger-item">
+                <div class="trigger-num">入口 1</div>
+                <p>邮件和 APP 提醒</p>
+                <small>仅美国站 · 商品送达后引导至商品支持页</small>
+              </div>
+              <div class="trigger-item">
+                <div class="trigger-num">入口 2</div>
+                <p>订单页面</p>
+                <small>选择商品 → 直达商品支持页面</small>
+              </div>
+              <div class="trigger-item">
+                <div class="trigger-num">入口 3</div>
+                <p>退货流程</p>
+                <small>点击退回商品 → 勾选原因 → 自动弹出支持页</small>
+              </div>
+              <div class="trigger-item">
+                <div class="trigger-num">入口 4</div>
+                <p>客服中心</p>
+                <small>选择订单 → 获取商品支持 → 选择解决方案</small>
+              </div>
+            </div>
+            <h4 style="margin-top:20px;">开启步骤</h4>
+            <ul class="steps">
+              <li>在卖家平台创建零配件 ASIN（创建后暂不上传库存）</li>
+              <li>登录卖家后台：<code>订单→洞察与机遇→设置→注册商品支持 （或直接使用此链接打开亚马逊商品支持注册门户：https://sellercentral.amazon.com/productsupport）</code></li>
+              <li>选择 “Provide Replacement Parts”填写匹配模板</li>
+              <li>等待确认邮件（约 15 工作日）后再上传配件库存</li>
+            </ul>
+          </div>
+          <div class="feat-col" style="grid-column: 1/-1;">
+            <h4>适用范围</h4>
+            <div class="badge-list">
+              <span class="badge yes">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                美国站、加拿大站
+              </span>
+              <span class="badge yes">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                欧洲站（英德法意西荷比瑞典波兰）
+              </span>
+              <span class="badge yes">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                父 ASIN 必须是 FBA
+              </span>
+              <span class="badge yes">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                配件 ASIN 可 FBA 或 FBM （*EU目前仅支持FBM）
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Partial Refund ─────────────────────────── -->
+  <section class="section" id="partial">
+    <div class="content">
+      <div class="section-label reveal visible">功能详解 · 03</div>
+      <h2 class="section-title reveal visible">部分退款</h2>
+      <p class="section-desc reveal visible">不是全额退款，也不是补件——买家保留商品的同时收到部分退款，处理"不必整件退回"问题的低成本方案。</p>
+
+      <div class="feat-block" data-c="partial">
+        <div class="feat-block-header">
+          <div class="feat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+          <div>
+            <div class="feat-title">Partial Refund</div>
+            <div class="feat-en">部分退款 · 默认关闭，需手动开启</div>
+          </div>
+        </div>
+        <div class="feat-block-body">
+          <div class="feat-col">
+            <h4>这是什么</h4>
+            <ul>
+              <li>开启后，符合条件的买家在退货流程中可选择「保留商品，获得部分退款」</li>
+              <li>无需退回商品，亚马逊自动处理退款</li>
+              <li>卖家可控制每个 ASIN 的退款折扣比例</li>
+            </ul>
+            <div class="info-box">
+              <strong>不是全额退款。</strong>买家拿到的退款金额由卖家设定——通常是商品与全额退款之间的差价。
+            </div>
+            <h4 style="margin-top:20px;">卖家利益点</h4>
+            <ul>
+              <li>降低退货处理、仓储、移除等成本</li>
+              <li>对无需整件退回的问题提供低成本解决方式</li>
+              <li>从 2026 年起，亚马逊每月发送「FBA Partial Refunds Performance Report」</li>
+            </ul>
+          </div>
+          <div class="feat-col">
+            <h4>买家流程</h4>
+            <ul>
+              <li>买家发起退货 → 填写退货原因</li>
+              <li>系统检测到该 ASIN 已启用部分退款</li>
+              <li>买家看到「保留商品，获得部分退款」选项</li>
+              <li>买家选择后，亚马逊自动处理部分退款</li>
+            </ul>
+            <div class="info-box">
+              <strong>注意：</strong>此选项出现在退货流程中，不是固定前台入口。
+            </div>
+            <h4 style="margin-top:20px;">开启步骤</h4>
+            <ul class="steps">
+              <li>登录卖家后台 → 右上角设置 → 亚马逊物流 →「FBA 退货评估与所有权设置」</li>
+              <li>点击「部分退款」的编辑入口</li>
+              <li>选择：为所有ASIN启用部分退款，并设置统一的折扣 / 上传 CSV 为指定 ASIN 启用部分退款 / 为所有ASIN禁用部分退款（默认）</li>
+              <li>点击“保存”后即时生效</li>
+            </ul>
+          </div>
+          <div class="feat-col" style="grid-column: 1/-1;">
+            <h4>适用条件</h4>
+            <div class="badge-list">
+              <span class="badge yes">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                美国站 + 欧洲五国（英德法意西）
+              </span>
+              <span class="badge yes">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                FBA 物流模式
+              </span>
+              <span class="badge yes">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                默认关闭，需手动开启
+              </span>
+              <span class="badge no">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                不适用：危险品、卫生用品、不可退货商品
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MFI ──────────────────────────────────── -->
+  <section class="section" id="mfi">
+    <div class="content">
+      <div class="section-label reveal visible">功能详解 · 04</div>
+      <h2 class="section-title reveal visible">Proactive MFI Claim</h2>
+      <p class="section-desc reveal visible">高客单价商品入仓差异自动调查与索赔。亚马逊主动调查、自动建案、卖家无需手动追索，赔付周期缩短至 30 天。</p>
+
+      <div class="feat-block" data-c="mfi">
+        <div class="feat-block-header">
+          <div class="feat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <div>
+            <div class="feat-title">Proactive MFI Claim</div>
+            <div class="feat-en">货件差异调查和索赔 · 免费自动注册 （符合资格的卖家由系统自动注册，请与您的经理确认是否已自动注册该功能）</div>
+          </div>
+        </div>
+        <div class="feat-block-body">
+          <div class="feat-col">
+            <h4>这是什么</h4>
+            <ul>
+              <li>高客单价货件入仓出现差异时，亚马逊系统自动发起调查</li>
+              <li>无需卖家手动开 Case，系统自动创建调查 Case</li>
+              <li>某些案例通过自动解决，无需额外提供证据</li>
+              <li>不适用自动解决的 Case，亚马逊主动通知卖家补充证据</li>
+            </ul>
+            <h4 style="margin-top:20px;">卖家利益点</h4>
+            <ul>
+              <li>亚马逊主动识别并跟进货件差异，无需手动追索</li>
+              <li>货件页面「已提交问题」标签，进度一目了然</li>
+              <li>赔付周期从 45 天缩短至 30 天</li>
+              <li>防篡改胶带要求已取消</li>
+            </ul>
+          </div>
+          <div class="feat-col">
+            <h4>资格条件</h4>
+            <ul>
+              <li><strong>卖家维度：</strong>过去 12 个月平均 ASP 高于 $50 / €49 / £40；包括之前注册过高客单价商品入库计划（HASPIP）的卖家</li>
+              <li><strong>货件维度：</strong>包含至少一件ASP高于$50/€49/£40高客单价商品</li>
+            </ul>
+            <div class="info-box ok">
+              <strong>免费，无需手动注册。</strong>符合资格时自动加入，不收取任何费用。卖家仍保留手动发起 MFI 调查的权利。
+            </div>
+            <h4 style="margin-top:20px;">追踪路径（两条）</h4>
+            <div class="flow-list">
+              <div class="flow-item">
+                <div class="flow-num">1</div>
+                <p>库存 → 货件 → 查看货件 → 「物品信息」→「已提交问题」</p>
+              </div>
+              <div class="flow-item">
+                <div class="flow-num">2</div>
+                <p>帮助 → 管理支持问题 → 主题「<code>FBA - Missing Item From Inbound</code>」</p>
+              </div>
+            </div>
+            <div style="margin-top:12px; font-size:12px; color:var(--az-muted);">
+              了解更多，请访问亚马逊物流库存赔偿政策：<code>https://
+sellercentral.amazon.com/help/hub/reference/external/G200213130?
+mons_sel_locale=zh_CN&amp;pageName=US%3ASC%3ATrim-
+help%2Fhub%2Freference%2Fexternal%2FG200213130</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Strategy ──────────────────────────────── -->
+  <section class="section" id="strategy">
+    <div class="content">
+      <div class="section-label reveal visible">组合打法</div>
+      <h2 class="section-title reveal visible">MFI货件差异调查，助力您高效索赔；三个功能，串联成一条售后控制链；</h2>
+      <p class="section-desc reveal visible">推荐按商品特征和问题类型，从最适合的那个开始。</p>
+
+      <div class="chain-node" data-c="mfi">
+          <div class="chain-step">入库环节</div>
+          <h3>MFI 自动触发货件差异调查及索赔</h3>
+          <div class="en">Proactive MFI Claim</div>
+          <p>卖家处理入仓差异与赔付 → 系统自动调查，无需手动追索</p>
+        </div><div class="strategy-chain reveal visible">
+        <div class="chain-node" data-c="bi">
+          <div class="chain-step">Step 01</div>
+          <h3>BI 实时答疑</h3>
+          <div class="en">Brand Initiated</div>
+          <p>买家刚遇到使用问题 → 实时答疑，解答安装、兼容疑问</p>
+        </div>
+        <div class="chain-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="chain-node" data-c="parts">
+          <div class="chain-step">Step 02</div>
+          <h3>Parts 补发零件</h3>
+          <div class="en">Parts Replacement</div>
+          <p>买家因缺件、损坏想退货 → 优先补件，拦截整单退货</p>
+        </div>
+        <div class="chain-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="chain-node" data-c="partial">
+          <div class="chain-step">Step 03</div>
+          <h3>Partial Refund</h3>
+          <div class="en">部分退款</div>
+          <p>买家可不退货但需要补偿 → 部分退款换保留商品</p>
+        </div>
+        
+        
+      </div>
+
+      <div class="strategy-tip reveal visible">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <p>
+          <strong>按商品特征选择最适合的组合：</strong><br>
+          · 有复杂安装说明的商品 → 从 BI 开始，实时解答顾客疑问<br>
+          · 有实体配件或易损件的商品 → 优先开启 Parts，有效降低退货和客诉<br>
+
+· 高退货率卖家 → Partial Refund部分退款减少退货损耗，提升顾客体验
+        <br>
+          · 高客单价商品卖家 → MFI 自动索赔符合资格即自动加入
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Resources ─────────────────────────────── -->
+  <section class="section" id="resources">
+    <div class="content">
+      <div class="section-label reveal visible">延伸阅读</div>
+      <h2 class="section-title reveal visible">参考资料</h2>
+      <p class="section-desc reveal visible">本页是顾问式整理，以下为原始资料，可跳转继续阅读。</p>
+
+      <div class="resource-list reveal visible">
+        <div class="res-card">
+          <div class="res-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22 6 12 13 2 6"></polyline></svg>
+          </div>
+          <div class="res-info">
+            <h3>零配件补发公众号文章</h3>
+            <p>亚马逊全球开店官方公众号：注册流程、创建零部件 ASIN 步骤、费用说明与常见问题解答</p>
+          </div>
+          <div class="res-tag">公众号</div>
+          <a href="https://mp.weixin.qq.com/s/lJ_egtEQCpL-lC-92b8ELA" target="_blank" rel="noopener" class="res-link">查看原文 →</a>
+        </div>
+
+        <div class="res-card">
+          <div class="res-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22 6 12 13 2 6"></polyline></svg>
+          </div>
+          <div class="res-info">
+            <h3>PLS / 品牌主实时支持公众号文章</h3>
+            <p>PLS（商品生命周期支持）整体介绍，包含品牌主实时支持的入口说明与卖家价值阐述</p>
+          </div>
+          <div class="res-tag">公众号</div>
+          <a target="_blank" rel="noopener" class="res-link" href="https://mp.weixin.qq.com/s/-t0fxyXFQhuSbrlf8lMMkQ?scene=21&amp;from=industrynews&amp;poc_token=HJP05Wmj8zSwi5wxAsZZU38TPEh_5M76BPq8uSA3">查看原文 →</a>
+        </div>
+
+        <div class="res-card">
+          <div class="res-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <div class="res-info">
+            <h3>退货管理攻略 PPT</h3>
+            <p>亚马逊内部资料：Partial Refund 的定义、适用条件、开启步骤与追踪方式说明</p>
+          </div>
+          <div class="res-tag">PPT</div>
+          <a href="./assets/returns-guide.pdf" class="res-link" download="">下载 ↓</a>
+        </div>
+
+        <div class="res-card">
+          <div class="res-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          </div>
+          <div class="res-info">
+            <h3>Proactive MFI Claim 官方邮件</h3>
+            <p>亚马逊官方邮件原文：资格条件、自动注册方式、Case 追踪路径与升级亮点详解</p>
+          </div>
+          <div class="res-tag">DOCX</div>
+          <a href="./assets/proactive-mfi-claim.docx" class="res-link" download="">下载 ↓</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ──────────────────────────────── -->
+  <footer class="footer">
+    <div class="content">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <p>本页由客户经理整理，基于亚马逊官方公众号文章、退货管理攻略 PPT 及 Proactive MFI Claim 官方邮件，旨在帮助 FBA 卖家快速理解四个售后功能的价值与开启方式。本页内容仅供参考，建议以亚马逊卖家平台官方最新公告为准。</p>
+        </div>
+        <div class="footer-right">
+          <div>整理日期：2026-04-20</div>
+          <div>面向：FBA 卖家</div>
+          <div>阅读时长：约 3 分钟</div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 · 仅供参考，不构成亚马逊官方政策解读
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  /* Scroll reveal */
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05 });
+  revealEls.forEach(el => io.observe(el));
+
+  /* Sidebar active state */
+  const sections = document.querySelectorAll('section[id]');
+  const navItems = document.querySelectorAll('.sidebar-nav-item[data-target]');
+
+  const sectionIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navItems.forEach(n => n.classList.toggle('active', n.dataset.target === e.target.id));
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => sectionIO.observe(s));
+
+  /* Overview card → scroll to detail */
+  const ovCards = document.querySelectorAll('.ov-card');
+  const targets = ['#bi', '#parts', '#partial', '#mfi'];
+  ovCards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      const el = document.querySelector(targets[i]);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+
+</body></html>
