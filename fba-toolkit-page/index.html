@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon FBA 卖家增长工具箱 — 降本增效，赢在售后</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --amz-orange:#FF9900;
+  --amz-orange-dark:#E88B00;
+  --amz-dark:#232F3E;
+  --amz-darker:#131A22;
+  --amz-teal:#00A8E1;
+  --amz-light:#F5F7FA;
+  --amz-green:#067D62;
+  --amz-green-light:#E6F7F3;
+  --amz-text:#0F1111;
+  --amz-text-secondary:#565959;
+  --amz-border:#D5D9D9;
+  --amz-card-shadow:0 2px 5px 0 rgba(213,217,217,.5);
+  --amz-hover-shadow:0 0 0 4px #FF9900,0 2px 12px rgba(0,0,0,.15);
+  --radius:8px;
+  --radius-lg:16px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Noto Sans SC','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--amz-text);
+  background:#fff;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,var(--amz-darker) 0%,var(--amz-dark) 50%,#37475A 100%);
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(ellipse at 30% 50%,rgba(255,153,0,.12) 0%,transparent 50%),
+             radial-gradient(ellipse at 70% 80%,rgba(0,168,225,.08) 0%,transparent 40%);
+  animation:heroGlow 12s ease-in-out infinite alternate;
+}
+@keyframes heroGlow{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(-3%,2%) scale(1.05)}
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,153,0,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,153,0,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-content{
+  position:relative;z-index:2;
+  text-align:center;
+  max-width:900px;
+  padding:2rem;
+}
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  background:rgba(255,153,0,.15);
+  border:1px solid rgba(255,153,0,.3);
+  color:var(--amz-orange);
+  padding:.4rem 1.2rem;
+  border-radius:100px;
+  font-size:.85rem;
+  font-weight:500;
+  letter-spacing:.5px;
+  margin-bottom:2rem;
+  backdrop-filter:blur(10px);
+}
+.hero-badge svg{width:16px;height:16px;fill:var(--amz-orange)}
+.hero h1{
+  font-size:clamp(2.2rem,5vw,3.8rem);
+  font-weight:900;
+  color:#fff;
+  line-height:1.2;
+  margin-bottom:1.5rem;
+}
+.hero h1 span{
+  background:linear-gradient(135deg,var(--amz-orange),#FFCC00);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(1rem,2vw,1.25rem);
+  color:rgba(255,255,255,.7);
+  max-width:700px;
+  margin:0 auto 2.5rem;
+  font-weight:300;
+  line-height:1.8;
+}
+.hero-features{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:1rem;
+  margin-bottom:3rem;
+}
+.hero-chip{
+  display:flex;align-items:center;gap:.5rem;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  padding:.6rem 1.2rem;
+  border-radius:100px;
+  color:rgba(255,255,255,.85);
+  font-size:.9rem;
+  font-weight:400;
+  backdrop-filter:blur(8px);
+  transition:all .3s;
+  cursor:pointer;
+  text-decoration:none;
+}
+.hero-chip:hover{
+  background:rgba(255,153,0,.15);
+  border-color:rgba(255,153,0,.4);
+  color:#fff;
+  transform:translateY(-2px);
+}
+.hero-chip .chip-icon{
+  width:28px;height:28px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;
+  flex-shrink:0;
+}
+.chip-bi .chip-icon{background:rgba(0,168,225,.3);color:#00A8E1}
+.chip-pr .chip-icon{background:rgba(6,125,98,.3);color:#4ADE80}
+.chip-parts .chip-icon{background:rgba(255,153,0,.3);color:#FF9900}
+.chip-mfi .chip-icon{background:rgba(168,85,247,.3);color:#C084FC}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:var(--amz-orange);
+  color:var(--amz-darker);
+  padding:.9rem 2.4rem;
+  border-radius:100px;
+  font-size:1rem;
+  font-weight:700;
+  text-decoration:none;
+  transition:all .3s;
+  box-shadow:0 4px 20px rgba(255,153,0,.4);
+}
+.hero-cta:hover{
+  background:#FFAD33;
+  transform:translateY(-2px);
+  box-shadow:0 6px 30px rgba(255,153,0,.5);
+}
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,.4);
+  animation:scrollBounce 2s ease-in-out infinite;
+}
+@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ===== NAV ===== */
+.sticky-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--amz-border);
+  transition:box-shadow .3s;
+}
+.sticky-nav.scrolled{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;
+  padding:.6rem 2rem;
+  gap:1rem;
+  overflow-x:auto;
+}
+.nav-logo{
+  font-weight:800;font-size:1.1rem;
+  color:var(--amz-dark);
+  white-space:nowrap;
+  display:flex;align-items:center;gap:.4rem;
+  flex-shrink:0;
+}
+.nav-logo svg{width:24px;height:24px}
+.nav-links{
+  display:flex;gap:.2rem;
+  margin-left:auto;
+  flex-shrink:0;
+}
+.nav-links a{
+  padding:.5rem 1rem;
+  border-radius:100px;
+  font-size:.82rem;
+  font-weight:500;
+  color:var(--amz-text-secondary);
+  text-decoration:none;
+  white-space:nowrap;
+  transition:all .2s;
+}
+.nav-links a:hover,.nav-links a.active{
+  background:rgba(255,153,0,.1);
+  color:var(--amz-orange-dark);
+}
+
+/* ===== SECTIONS ===== */
+.section{
+  padding:5rem 2rem;
+  max-width:1200px;
+  margin:0 auto;
+}
+.section-header{
+  text-align:center;
+  margin-bottom:4rem;
+}
+.section-label{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.8rem;
+  font-weight:600;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--amz-orange);
+  margin-bottom:.8rem;
+}
+.section-title{
+  font-size:clamp(1.8rem,3.5vw,2.6rem);
+  font-weight:800;
+  color:var(--amz-dark);
+  line-height:1.3;
+  margin-bottom:1rem;
+}
+.section-desc{
+  font-size:1.05rem;
+  color:var(--amz-text-secondary);
+  max-width:700px;
+  margin:0 auto;
+  line-height:1.8;
+}
+
+/* ===== FEATURE CARD ===== */
+.feature-block{
+  padding:5rem 2rem;
+  position:relative;
+}
+.feature-block:nth-child(even){background:var(--amz-light)}
+.feature-inner{
+  max-width:1200px;
+  margin:0 auto;
+}
+.feature-tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.4rem 1rem;
+  border-radius:100px;
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.5px;
+  margin-bottom:1.5rem;
+}
+.tag-bi{background:rgba(0,168,225,.1);color:#0073BB}
+.tag-pr{background:rgba(6,125,98,.1);color:var(--amz-green)}
+.tag-parts{background:rgba(255,153,0,.1);color:#CC7A00}
+.tag-mfi{background:rgba(168,85,247,.1);color:#7C3AED}
+.feature-title{
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:800;
+  color:var(--amz-dark);
+  margin-bottom:1rem;
+  line-height:1.3;
+}
+.feature-subtitle{
+  font-size:1.05rem;
+  color:var(--amz-text-secondary);
+  margin-bottom:2.5rem;
+  max-width:800px;
+  line-height:1.8;
+}
+
+/* What is it */
+.what-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2rem;
+  margin-bottom:3rem;
+}
+.what-card{
+  background:#fff;
+  border:1px solid var(--amz-border);
+  border-radius:var(--radius-lg);
+  padding:2rem;
+  transition:all .3s;
+}
+.what-card:hover{
+  border-color:var(--amz-orange);
+  box-shadow:var(--amz-card-shadow);
+  transform:translateY(-2px);
+}
+.what-card h4{
+  font-size:1rem;
+  font-weight:700;
+  color:var(--amz-dark);
+  margin-bottom:.8rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.what-card h4 .icon-circle{
+  width:32px;height:32px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;
+  flex-shrink:0;
+}
+.what-card p{
+  font-size:.92rem;
+  color:var(--amz-text-secondary);
+  line-height:1.7;
+}
+
+/* Benefits */
+.benefits-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.5rem;
+  margin-bottom:3rem;
+}
+.benefit-item{
+  background:#fff;
+  border:1px solid var(--amz-border);
+  border-radius:var(--radius-lg);
+  padding:1.8rem;
+  text-align:center;
+  transition:all .3s;
+  position:relative;
+  overflow:hidden;
+}
+.benefit-item::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:3px;
+  background:linear-gradient(90deg,var(--amz-orange),var(--amz-teal));
+  opacity:0;
+  transition:opacity .3s;
+}
+.benefit-item:hover::before{opacity:1}
+.benefit-item:hover{
+  box-shadow:var(--amz-card-shadow);
+  transform:translateY(-3px);
+}
+.benefit-icon{
+  width:56px;height:56px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;
+  margin:0 auto 1rem;
+}
+.benefit-item h4{
+  font-size:.95rem;
+  font-weight:700;
+  color:var(--amz-dark);
+  margin-bottom:.5rem;
+}
+.benefit-item p{
+  font-size:.85rem;
+  color:var(--amz-text-secondary);
+  line-height:1.6;
+}
+
+/* Steps */
+.steps-container{
+  position:relative;
+  margin-bottom:3rem;
+}
+.step-row{
+  display:flex;
+  align-items:flex-start;
+  gap:1.5rem;
+  margin-bottom:1.5rem;
+  position:relative;
+}
+.step-num{
+  width:40px;height:40px;
+  border-radius:50%;
+  background:var(--amz-orange);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;
+  font-size:.9rem;
+  flex-shrink:0;
+  position:relative;
+  z-index:2;
+}
+.step-content{
+  flex:1;
+  background:#fff;
+  border:1px solid var(--amz-border);
+  border-radius:var(--radius);
+  padding:1.2rem 1.5rem;
+}
+.step-content h4{
+  font-size:.95rem;
+  font-weight:700;
+  color:var(--amz-dark);
+  margin-bottom:.3rem;
+}
+.step-content p{
+  font-size:.88rem;
+  color:var(--amz-text-secondary);
+  line-height:1.6;
+}
+.step-line{
+  position:absolute;
+  left:19px;top:40px;bottom:-10px;
+  width:2px;
+  background:linear-gradient(to bottom,var(--amz-orange),rgba(255,153,0,.1));
+  z-index:1;
+}
+
+/* Comparison table */
+.compare-table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  border:1px solid var(--amz-border);
+  margin-bottom:2rem;
+  font-size:.88rem;
+}
+.compare-table thead{background:var(--amz-dark);color:#fff}
+.compare-table th{
+  padding:1rem 1.2rem;
+  font-weight:600;
+  text-align:left;
+  font-size:.82rem;
+  letter-spacing:.3px;
+}
+.compare-table td{
+  padding:.9rem 1.2rem;
+  border-bottom:1px solid var(--amz-border);
+  color:var(--amz-text-secondary);
+  line-height:1.5;
+}
+.compare-table tbody tr:hover{background:rgba(255,153,0,.03)}
+.compare-table tbody tr:last-child td{border-bottom:none}
+
+/* Stats */
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1.5rem;
+  margin:2rem 0 3rem;
+}
+.stat-card{
+  text-align:center;
+  padding:2rem 1rem;
+  background:#fff;
+  border:1px solid var(--amz-border);
+  border-radius:var(--radius-lg);
+}
+.stat-num{
+  font-size:2.2rem;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--amz-orange),#E88B00);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1;
+  margin-bottom:.5rem;
+}
+.stat-label{
+  font-size:.82rem;
+  color:var(--amz-text-secondary);
+  line-height:1.4;
+}
+
+/* FAQ */
+.faq-list{margin-bottom:2rem}
+.faq-item{
+  border:1px solid var(--amz-border);
+  border-radius:var(--radius);
+  margin-bottom:.8rem;
+  overflow:hidden;
+  transition:all .3s;
+}
+.faq-item:hover{border-color:rgba(255,153,0,.3)}
+.faq-q{
+  padding:1rem 1.5rem;
+  font-weight:600;
+  font-size:.92rem;
+  color:var(--amz-dark);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  user-select:none;
+  transition:background .2s;
+}
+.faq-q:hover{background:rgba(255,153,0,.03)}
+.faq-q .arrow{
+  transition:transform .3s;
+  flex-shrink:0;
+  color:var(--amz-orange);
+}
+.faq-item.open .faq-q .arrow{transform:rotate(180deg)}
+.faq-a{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .4s ease,padding .3s;
+}
+.faq-item.open .faq-a{
+  max-height:600px;
+  padding:0 1.5rem 1.2rem;
+}
+.faq-a p{
+  font-size:.88rem;
+  color:var(--amz-text-secondary);
+  line-height:1.7;
+}
+
+/* Resources */
+.resources-section{
+  background:var(--amz-dark);
+  padding:5rem 2rem;
+}
+.resources-inner{
+  max-width:1200px;
+  margin:0 auto;
+}
+.resources-inner .section-title{color:#fff}
+.resources-inner .section-desc{color:rgba(255,255,255,.6)}
+.resource-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;
+  margin-top:3rem;
+}
+.resource-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--radius-lg);
+  padding:2rem;
+  transition:all .3s;
+  text-decoration:none;
+  display:block;
+}
+.resource-card:hover{
+  background:rgba(255,255,255,.1);
+  border-color:rgba(255,153,0,.4);
+  transform:translateY(-3px);
+}
+.resource-icon{
+  width:48px;height:48px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;
+  margin-bottom:1.2rem;
+}
+.resource-card h4{
+  font-size:1rem;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:.5rem;
+}
+.resource-card p{
+  font-size:.85rem;
+  color:rgba(255,255,255,.5);
+  line-height:1.6;
+  margin-bottom:1rem;
+}
+.resource-link{
+  font-size:.82rem;
+  color:var(--amz-orange);
+  font-weight:600;
+  display:flex;align-items:center;gap:.3rem;
+}
+
+/* Footer */
+.footer{
+  background:var(--amz-darker);
+  padding:3rem 2rem;
+  text-align:center;
+}
+.footer p{
+  font-size:.82rem;
+  color:rgba(255,255,255,.35);
+  line-height:1.6;
+}
+.footer a{color:var(--amz-orange);text-decoration:none}
+
+/* Divider */
+.section-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--amz-border),transparent);
+  max-width:1200px;
+  margin:0 auto;
+}
+
+/* Animations */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .6s ease,transform .6s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .what-grid{grid-template-columns:1fr}
+  .benefits-row{grid-template-columns:1fr 1fr}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .compare-table{font-size:.78rem}
+  .compare-table th,.compare-table td{padding:.7rem .8rem}
+  .feature-block{padding:3rem 1.2rem}
+  .section{padding:3rem 1.2rem}
+}
+@media(max-width:480px){
+  .benefits-row{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr}
+  .hero-features{flex-direction:column;align-items:center}
+}
+
+/* Highlight callout */
+.callout{
+  background:linear-gradient(135deg,rgba(255,153,0,.06),rgba(0,168,225,.04));
+  border-left:4px solid var(--amz-orange);
+  border-radius:0 var(--radius) var(--radius) 0;
+  padding:1.2rem 1.5rem;
+  margin:1.5rem 0;
+}
+.callout p{
+  font-size:.9rem;
+  color:var(--amz-text);
+  line-height:1.7;
+}
+.callout strong{color:var(--amz-orange-dark)}
+
+/* Pill tag */
+.pill{
+  display:inline-block;
+  padding:.2rem .7rem;
+  border-radius:100px;
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.3px;
+}
+.pill-free{background:var(--amz-green-light);color:var(--amz-green)}
+.pill-new{background:rgba(168,85,247,.1);color:#7C3AED}
+.pill-auto{background:rgba(0,168,225,.1);color:#0073BB}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+      Amazon FBA 卖家增长工具箱
+    </div>
+    <h1>四大功能助力<br><span>降本增效，赢在售后</span></h1>
+    <p class="hero-sub">
+      作为您的亚马逊客户经理，我精选了四项 FBA 核心功能，帮助您降低退货成本、提升客户满意度、保障货件权益。每一项都免费开通，即刻生效。
+    </p>
+    <div class="hero-features">
+      <a href="#bi" class="hero-chip chip-bi">
+        <span class="chip-icon">💬</span>品牌主实时支持 (BI)
+      </a>
+      <a href="#partial-refund" class="hero-chip chip-pr">
+        <span class="chip-icon">💰</span>部分退款 (Partial Refund)
+      </a>
+      <a href="#parts" class="hero-chip chip-parts">
+        <span class="chip-icon">🔧</span>零配件补发 (Parts)
+      </a>
+      <a href="#mfi" class="hero-chip chip-mfi">
+        <span class="chip-icon">📦</span>货件差异调查 (Proactive MFI)
+      </a>
+    </div>
+    <a href="#bi" class="hero-cta">
+      开始了解 ↓
+    </a>
+  </div>
+  <div class="hero-scroll">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- ===== STICKY NAV ===== -->
+<nav class="sticky-nav" id="stickyNav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <svg viewBox="0 0 24 24" fill="var(--amz-orange)"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+      FBA 工具箱
+    </div>
+    <div class="nav-links">
+      <a href="#bi">品牌主实时支持</a>
+      <a href="#partial-refund">部分退款</a>
+      <a href="#parts">零配件补发</a>
+      <a href="#mfi">货件差异调查</a>
+      <a href="#resources">参考资料</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========================================== -->
+<!-- FEATURE 1: 品牌主实时支持 (BI) -->
+<!-- ========================================== -->
+<div class="feature-block" id="bi">
+  <div class="feature-inner reveal">
+    <span class="feature-tag tag-bi">💬 FEATURE 01 — 品牌主实时支持 (Brand Incubator)</span>
+    <h2 class="feature-title">本土客服实时答疑，最后一刻挽留订单</h2>
+    <p class="feature-subtitle">
+      品牌主实时支持（BI）是亚马逊商品支持（Product Support）的核心功能之一。当消费者在退货流程中遇到问题时，系统会自动将消费者转接到您的品牌客服团队，让您有机会在退货发生前直接沟通、解决问题，挽留订单。
+    </p>
+
+    <!-- 功能介绍 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">📋 功能是什么？长什么样？</h3>
+    <div class="what-grid">
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(0,168,225,.1);color:#0073BB">📞</span>实时转接客服</h4>
+        <p>消费者在"获取产品支持"页面可以选择在线联系卖家客服或留下电话等待联系。亚马逊来电后自动转接到品牌主客服，品牌主不会直接看到顾客电话，保护双方隐私。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(6,125,98,.1);color:var(--amz-green)">🛡️</span>三大触达入口</h4>
+        <p><strong>订单页面：</strong>顾客点击"获取产品支持"直达。<br><strong>退货流程：</strong>选择退货原因后自动弹出支持页面。<br><strong>客服中心：</strong>顾客选择有问题的订单后跳转。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(255,153,0,.1);color:#CC7A00">🌍</span>多站点覆盖</h4>
+        <p>适用于美国站、加拿大站、英国站、法国站、意大利站、西班牙站、德国站、瑞典站、荷兰站、比利时站、波兰站。需要品牌主具备本土语言能力和当地时间在线支持的客服团队。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(168,85,247,.1);color:#7C3AED">⚡</span>前置条件</h4>
+        <p>需要先开通"联系制造商"功能，然后才能激活品牌主实时支持。适用于已完成品牌注册的品牌主卖家，完全免费。</p>
+      </div>
+    </div>
+
+    <!-- 卖家利益 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">🎯 对卖家的好处</h3>
+    <div class="benefits-row">
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(0,168,225,.1)">🎯</div>
+        <h4>关键时刻挽留订单</h4>
+        <p>在消费者即将退货的最后一刻，通过实时沟通解决问题，将退货转化为满意体验</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(6,125,98,.1)">📉</div>
+        <h4>显著降低退货率</h4>
+        <p>数据显示 68% 的顾客使用商品支持后不再退货，头部卖家实测 4 个月退货率直降 40%</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(255,153,0,.1)">⭐</div>
+        <h4>提升品牌满意度</h4>
+        <p>平均满意度高达 91%，直接提升品牌口碑和消费者忠诚度</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(168,85,247,.1)">🆓</div>
+        <h4>完全免费</h4>
+        <p>无需额外费用，品牌主卖家免费开通使用</p>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">68%</div>
+        <div class="stat-label">顾客使用后不再退货</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">91%</div>
+        <div class="stat-label">平均满意度</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">40%</div>
+        <div class="stat-label">头部卖家退货率降幅</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">400K+</div>
+        <div class="stat-label">2024年注册品牌数</div>
+      </div>
+    </div>
+
+    <!-- 如何开启 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">🚀 如何开启？</h3>
+    <div class="steps-container">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>确认品牌注册</h4>
+          <p>确保您已完成亚马逊品牌注册（Brand Registry），这是使用商品支持功能的前提。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>开通"联系制造商"功能</h4>
+          <p>在商品支持一站式注册门户中，先开通"联系制造商"功能，留下售后电话或官网网址。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>激活品牌主实时支持</h4>
+          <p>在门户页面中找到"品牌主在线支持"，按照页面提示完成注册。需要具备本土语言能力和当地时间在线支持的客服团队。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>开始接收客户咨询</h4>
+          <p>开通后，消费者在订单页面、退货流程、客服中心均可触达您的客服团队，实时解答问题。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>💡 <strong>小贴士：</strong>建议同时开通售后视频、产品操作文档等商品支持功能，形成"组合拳"，全方位覆盖售后场景，最大化降低退货率。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ========================================== -->
+<!-- FEATURE 2: 部分退款 (Partial Refund) -->
+<!-- ========================================== -->
+<div class="feature-block" id="partial-refund">
+  <div class="feature-inner reveal">
+    <span class="feature-tag tag-pr">💰 FEATURE 02 — 部分退款 (Partial Refund)</span>
+    <h2 class="feature-title">灵活退款不退货，降低退货成本</h2>
+    <p class="feature-subtitle">
+      部分退款功能允许卖家向消费者提供"保留商品并获得部分退款"的选项，无需退还商品。消费者在退货流程中可以选择接受部分退款，卖家节省退货处理、仓储和移除费用。
+    </p>
+
+    <!-- 功能介绍 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">📋 功能是什么？长什么样？</h3>
+    <div class="what-grid">
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(6,125,98,.1);color:var(--amz-green)">💳</span>消费者体验流程</h4>
+        <p>买家表示退货意向 → 提供退货原因 → 选择"退款"选项 → 系统提供"保留商品并获得部分退款"的选项 → 买家选择"部分退款"。整个流程简洁流畅，消费者无需寄回商品即可获得退款。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(255,153,0,.1);color:#CC7A00">⚙️</span>卖家自主设置</h4>
+        <p>卖家可以为每个 ASIN 单独设置退款比例，也可以为所有 ASIN 设置统一折扣。支持通过 CSV 文件批量上传，最多可上传 50,000 个 ASIN。默认关闭，需手动开启，可随时停止。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(0,168,225,.1);color:#0073BB">🛡️</span>防滥用机制</h4>
+        <p>亚马逊已设置精准筛选条件，仅面向不存在滥用行为历史的消费者显示部分退款选项。消费者在购买时不会知道该商品是否提供此选项，避免滥用行为。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(168,85,247,.1);color:#7C3AED">🌐</span>适用范围</h4>
+        <p><strong>站点：</strong>美国站、欧洲五国站（英/德/法/意/西）<br><strong>物流模式：</strong>FBA<br><strong>商品要求：</strong>非危险品、非卫生用品、非不可退货商品</p>
+      </div>
+    </div>
+
+    <!-- 部分退款 vs 仅退款 对比 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin:2rem 0 1.5rem;">📊 部分退款 vs 仅退款 对比</h3>
+    <div style="overflow-x:auto">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>对比项</th>
+          <th>部分退款 (Partial Refund)</th>
+          <th>仅退款 (Returnless Refund)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>开放站点</strong></td><td>美国站、欧洲五国站</td><td>美国站</td></tr>
+        <tr><td><strong>物流模式</strong></td><td>FBA</td><td>FBA</td></tr>
+        <tr><td><strong>售价要求</strong></td><td>无要求</td><td>75 美元以下</td></tr>
+        <tr><td><strong>商品要求</strong></td><td>非危险品、非卫生用品、非不可退货商品</td><td>非危险品、非召回商品、非礼品卡、非重型大件商品</td></tr>
+        <tr><td><strong>退款方式</strong></td><td>卖家自定义退款比例</td><td>全额退款，消费者保留商品</td></tr>
+        <tr><td><strong>默认状态</strong></td><td>默认关闭，需手动开启</td><td>默认关闭，需手动开启</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <!-- 卖家利益 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">🎯 对卖家的好处</h3>
+    <div class="benefits-row">
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(6,125,98,.1)">💸</div>
+        <h4>节省退货处理成本</h4>
+        <p>节省退货运输、仓储和移除相关费用，避免因退货产生的不必要支出</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(0,168,225,.1)">⏱️</div>
+        <h4>减少退货管理时间</h4>
+        <p>消费者无需寄回商品，卖家无需处理退货入库、质检等繁琐流程</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(255,153,0,.1)">🎛️</div>
+        <h4>自主灵活操作</h4>
+        <p>每个 ASIN 的退款比例完全由卖家决定，可随时启用或关闭，更改即时生效</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(168,85,247,.1)">📊</div>
+        <h4>佣金不受影响</h4>
+        <p>亚马逊物流销售佣金保持不变，卖家仍可收到销售佣金退款（减去管理费用）</p>
+      </div>
+    </div>
+
+    <!-- 如何开启 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">🚀 如何开启？</h3>
+    <div class="steps-container">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>进入 FBA 设置</h4>
+          <p>从卖家平台的"设置"下拉菜单中，选择"亚马逊物流"。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>找到部分退款设置</h4>
+          <p>滚动到"FBA 退货评估与所有权设置"部分，点击"部分退款"旁边的"编辑"。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>选择启用方式</h4>
+          <p>可选择为所有 ASIN 启用并设置统一折扣，或上传 CSV 文件为选定 ASIN 设置不同退款比例（最多 50,000 个 ASIN）。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>保存并追踪</h4>
+          <p>点击"保存"，更改立即生效。在 FBA 退货页面点击"管理退货订单"，查看"退货状态"列中标记为"完成 - 不用退货"的订单。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>💡 <strong>小贴士：</strong>建议先从退货率较高的 ASIN 开始试点，设置合理的退款比例（如商品售价的 10%-30%），观察效果后再逐步扩大范围。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ========================================== -->
+<!-- FEATURE 3: 零配件补发 (Parts) -->
+<!-- ========================================== -->
+<div class="feature-block" id="parts">
+  <div class="feature-inner reveal">
+    <span class="feature-tag tag-parts">🔧 FEATURE 03 — 零配件补发计划 (Replacement Parts Program) <span class="pill pill-new">NEW</span></span>
+    <h2 class="feature-title">缺失零件不退货，补发配件留住客户</h2>
+    <p class="feature-subtitle">
+      零配件补发计划是亚马逊商品支持的最新功能。当消费者收到的商品存在零配件缺失或损坏时，可以在退货窗口内直接免费申请补发配件，无需退回整个商品。这大幅减少了因小零件问题导致的整件退货。
+    </p>
+
+    <!-- 功能介绍 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">📋 功能是什么？长什么样？</h3>
+    <div class="what-grid">
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(255,153,0,.1);color:#CC7A00">🔩</span>解决的核心问题</h4>
+        <p>大量退货仅仅因为消费者找不到安装答案、缺失或损坏了一个小零件就退回整个商品。零配件补发让消费者可以直接申请缺失的配件，避免不必要的整件退货。2024年已有 40 万+品牌注册，成功阻止了 1470 万次退货。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(0,168,225,.1);color:#0073BB">📦</span>运作方式</h4>
+        <p>卖家需要将零配件作为独立 ASIN/SKU 上架，并与父 ASIN 关联。消费者在"获取产品支持"页面可以看到可申请的零配件列表，选择需要的配件后由卖家通过 FBM（卖家自配送）完成配件订单。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(6,125,98,.1);color:var(--amz-green)">📋</span>配送要求</h4>
+        <p><strong>父 ASIN/SKU：</strong>必须是 FBA 配送，FBM 的 ASIN 不符合注册资格。<br><strong>零配件 ASIN/SKU：</strong>FBA 卖家必须通过 FBM（卖家自配送）完成配件订单。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(168,85,247,.1);color:#7C3AED">🌐</span>适用范围</h4>
+        <p>适用于美国站、加拿大站、英国站、法国站、意大利站、西班牙站、德国站。需要品牌主卖家身份，完全免费。</p>
+      </div>
+    </div>
+
+    <!-- 卖家利益 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">🎯 对卖家的好处</h3>
+    <div class="benefits-row">
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(255,153,0,.1)">📉</div>
+        <h4>大幅减少退货</h4>
+        <p>避免因小零件问题导致的整件退货，2024年全球已阻止 1470 万次退货</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(6,125,98,.1)">💰</div>
+        <h4>降低退货成本</h4>
+        <p>补发一个小配件的成本远低于处理一次完整退货的运输、仓储和移除费用</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(0,168,225,.1)">😊</div>
+        <h4>提升客户体验</h4>
+        <p>消费者无需退回整个商品，快速获得缺失配件，满意度大幅提升</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(168,85,247,.1)">⭐</div>
+        <h4>保护产品评分</h4>
+        <p>减少因退货产生的差评和高退货率标签风险，维护商品详情页健康度</p>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">14.7M</div>
+        <div class="stat-label">2024年成功阻止的退货次数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">400K+</div>
+        <div class="stat-label">已注册品牌数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">免费</div>
+        <div class="stat-label">无需额外费用</div>
+      </div>
+    </div>
+
+    <!-- 如何开启 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">🚀 如何开启？</h3>
+    <div class="steps-container">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>准备零配件 ASIN</h4>
+          <p>将商品的零配件（螺丝、支架、遥控器等）作为独立 ASIN/SKU 上架，每个配件需要有独立的 UPC 编码。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>进入商品支持注册门户</h4>
+          <p>在卖家平台找到商品支持一站式注册门户，选择"零配件补发计划"功能。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>关联父 ASIN 与配件 ASIN</h4>
+          <p>按照页面提示，将零配件 ASIN 与对应的父 ASIN 进行关联，设置配件信息。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>通过 FBM 配送配件订单</h4>
+          <p>消费者申请配件后，卖家通过卖家自配送（FBM）完成配件订单的发货。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>💡 <strong>小贴士：</strong>建议优先为退货原因中"缺失零件"或"损坏零件"占比较高的 ASIN 开通此功能。结合售后视频和产品操作文档，可以进一步降低因安装问题导致的退货。</p>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ========================================== -->
+<!-- FEATURE 4: Proactive MFI Claim -->
+<!-- ========================================== -->
+<div class="feature-block" id="mfi">
+  <div class="feature-inner reveal">
+    <span class="feature-tag tag-mfi">📦 FEATURE 04 — 货件差异主动调查 (Proactive MFI Claim) <span class="pill pill-auto">自动注册</span></span>
+    <h2 class="feature-title">无需手动申请，官方主动开启差异调查</h2>
+    <p class="feature-subtitle">
+      亚马逊全面升级高客单价商品入库计划！针对包含价值 $50/€49/£40 或以上商品的货件，在货件运输完成后出现差异时，亚马逊将自动为您发起调查并处理异常，无需您手动开 Case。
+    </p>
+
+    <!-- 功能介绍 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">📋 功能是什么？长什么样？</h3>
+    <div class="what-grid">
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(168,85,247,.1);color:#7C3AED">🔍</span>主动调查机制</h4>
+        <p>当您的货件在运输完成（Closed）后出现与计划的差异时，亚马逊会主动发起调查并处理异常，大幅减少您查验和手动开 Case 的繁琐步骤。无需动手，系统自动追踪。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(0,168,225,.1);color:#0073BB">📋</span>自动建案追踪</h4>
+        <p>系统自动为您创建调查 Case，并在"货件一览"页面清晰标签区别，让进度主动出现在您眼前。Case 主题为"FBAXXX - Missing Item From Inbound"，与卖家手动创建的差异调查 Case 格式相同。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(6,125,98,.1);color:var(--amz-green)">⚡</span>更快赔付</h4>
+        <p>处理周期从原来的 45 天缩短至 30 天内，赔付更快。无需再使用防篡改胶带，也不用额外确认调查。某些案例将通过自动完成 Case 解决，无需您提供任何证据。</p>
+      </div>
+      <div class="what-card">
+        <h4><span class="icon-circle" style="background:rgba(255,153,0,.1);color:#CC7A00">✅</span>资格条件</h4>
+        <p><strong>卖家维度：</strong>过去12个月平均 ASP 高于 $50/€49/£40，包括之前注册过 HASPIP 的卖家。<br><strong>货件维度：</strong>包含至少一件 ASP 高于 $50/€49/£40 的高客单价商品。</p>
+      </div>
+    </div>
+
+    <!-- 升级前后对比 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin:2rem 0 1.5rem;">📊 升级前后对比</h3>
+    <div style="overflow-x:auto">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>对比项</th>
+          <th>升级前 (HASPIP)</th>
+          <th>升级后 (Proactive MFI)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>注册方式</strong></td><td>手动注册</td><td>自动注册 <span class="pill pill-auto">自动</span></td></tr>
+        <tr><td><strong>Case 创建</strong></td><td>运营团队创建 Case 询问卖家是否需要进一步调查</td><td>系统自动创建差异调查 Case，无需卖家再次确认</td></tr>
+        <tr><td><strong>Case 格式</strong></td><td>主题为：HASPIP Proactive MFI Investigation</td><td>主题为：FBAXXX - Missing Item From Inbound（与手动 MFI 相同）</td></tr>
+        <tr><td><strong>调查流程</strong></td><td>卖家需要提供证据（如 POD、收据）</td><td>部分 Case 自动解决；不适用自动解决的仍需提供证据</td></tr>
+        <tr><td><strong>Case 追踪</strong></td><td>需在"支持问题"中查找，未集成到货件页面</td><td>货件页面有"已提交问题"标签，一目了然</td></tr>
+        <tr><td><strong>处理周期</strong></td><td>最长 45 天</td><td>缩短至 30 天内</td></tr>
+        <tr><td><strong>防篡改胶带</strong></td><td>需要使用</td><td>无需使用</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <!-- 卖家利益 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">🎯 对卖家的好处</h3>
+    <div class="benefits-row">
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(168,85,247,.1)">🤖</div>
+        <h4>全自动，零操作</h4>
+        <p>自动注册、自动建案、自动追踪，大幅减少手动开 Case 的时间和精力</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(0,168,225,.1)">⏰</div>
+        <h4>赔付更快</h4>
+        <p>处理周期从 45 天缩短至 30 天内，资金回笼更快</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(6,125,98,.1)">📊</div>
+        <h4>透明可追踪</h4>
+        <p>货件页面直接显示"已提交问题"标签，Case 进度一目了然</p>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon" style="background:rgba(255,153,0,.1)">🆓</div>
+        <h4>完全免费</h4>
+        <p>此功能免费，自动注册，无需您采取任何行动</p>
+      </div>
+    </div>
+
+    <!-- 如何查看 -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin-bottom:1.5rem;">🚀 如何查看和追踪？</h3>
+    <div class="steps-container">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>通过库存管理查看</h4>
+          <p>打开"库存" → 选择"货件" → 查看"预计商品数量"和"找到的商品数量"之间的差异 → 点击"追踪货件" → 在"货件一览"页面点击"物品信息" → 查看"已提交问题"。</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>通过支持问题查看</h4>
+          <p>路径：帮助 → 管理支持问题 → 主题为"FBA - Missing Item From Inbound"。调查完成后，亚马逊会更新 Case 详情。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>💡 <strong>重要提示：</strong>您仍然保留自己开启 MFI 调查案例的权利。对于不适用自动解决的 Case，可能仍需要您提供相关证据（如 POD、收据等）用以后续调查。建议保留好每次发货的相关凭证。</p>
+    </div>
+
+    <!-- FAQ -->
+    <h3 style="font-size:1.1rem;font-weight:700;color:var(--amz-dark);margin:2rem 0 1.5rem;">❓ 常见问题</h3>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          此功能需要付费吗？
+          <svg class="arrow" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="faq-a"><p>不需要。此功能完全免费，自动注册，无需您采取任何行动。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          我是否保留自己开启 MFI 调查案例的权利？
+          <svg class="arrow" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="faq-a"><p>是的。您仍然可以自行发起 MFI 调查。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          使用此功能的资格标准是什么？
+          <svg class="arrow" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="faq-a"><p><strong>卖家维度：</strong>过去12个月平均 ASP 高于 $50/€49/£40，包括之前注册过高客单价商品入库计划（HASPIP）的卖家。<br><strong>货件维度：</strong>包含至少一件 ASP 高于 $50/€49/£40 的高客单价商品。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          与手动的 MFI 申诉流程有什么区别？
+          <svg class="arrow" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="faq-a"><p>1) 对于存在差异的货件，亚马逊将自动代表您创建调查 Case，节省您的时间和精力；2) 某些案例将通过自动完成 Case 解决和处理，无需您进一步提供任何证据；对于不适用自动解决的 Case，可能仍需要您提供相关证据（如 POD、收据等）用以调查。</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- RESOURCES SECTION -->
+<!-- ========================================== -->
+<section class="resources-section" id="resources">
+  <div class="resources-inner">
+    <div class="section-header">
+      <div class="section-label" style="color:var(--amz-orange)">📚 参考资料</div>
+      <h2 class="section-title">扩展阅读与官方资源</h2>
+      <p class="section-desc">以下是与四大功能相关的官方文档、帮助页面和操作指南，点击即可访问。</p>
+    </div>
+    <div class="resource-grid">
+      <!-- BI Resources -->
+      <a href="https://sellercentral.amazon.com/product-support" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(0,168,225,.15)">💬</div>
+        <h4>商品支持一站式注册门户</h4>
+        <p>在此页面完成品牌主实时支持、售后视频、联系制造商、产品操作文档、零配件补发等五大功能的注册。</p>
+        <span class="resource-link">访问页面 →</span>
+      </a>
+      <a href="https://sellercentral.amazon.com/help/hub/reference/G6ETMKJMHBSG4FHB" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(0,168,225,.15)">📖</div>
+        <h4>商品支持帮助文档</h4>
+        <p>了解商品支持（Product Support）的完整功能介绍、适用条件和操作指南。</p>
+        <span class="resource-link">查看文档 →</span>
+      </a>
+
+      <!-- Partial Refund Resources -->
+      <a href="https://sellercentral.amazon.com/help/hub/reference/GMZFBZAP3RCPNFCL" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(6,125,98,.15)">💰</div>
+        <h4>FBA 部分退款帮助页面</h4>
+        <p>了解部分退款功能的详细设置方法、适用条件和追踪方式。</p>
+        <span class="resource-link">查看文档 →</span>
+      </a>
+      <a href="https://sellercentral.amazon.com/fba/settings" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(6,125,98,.15)">⚙️</div>
+        <h4>FBA 设置页面</h4>
+        <p>直接进入 FBA 设置页面，开启部分退款和仅退款功能。</p>
+        <span class="resource-link">前往设置 →</span>
+      </a>
+
+      <!-- Parts Resources -->
+      <a href="https://sellercentral.amazon.com/seller-forums/discussions/t/d66c4588-86ec-40e0-82a3-392443d82d4f" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(255,153,0,.15)">🔧</div>
+        <h4>零配件补发计划 Q&A</h4>
+        <p>亚马逊官方 Ask Amazon 活动中关于零配件补发计划的详细问答记录。</p>
+        <span class="resource-link">查看讨论 →</span>
+      </a>
+
+      <!-- MFI Resources -->
+      <a href="https://sellercentral.amazon.com/help/hub/reference/G900" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(168,85,247,.15)">📦</div>
+        <h4>亚马逊物流库存赔偿政策</h4>
+        <p>了解亚马逊物流库存赔偿的完整政策，包括货件差异调查和索赔流程。</p>
+        <span class="resource-link">查看政策 →</span>
+      </a>
+
+      <!-- General Resources -->
+      <a href="https://sellercentral.amazon.com/voiceofcustomer" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(255,153,0,.15)">🔍</div>
+        <h4>买家之声 (VOC)</h4>
+        <p>通过买家之声查看退货率和高退货率标签状态，锁定需要优化的关键 ASIN。</p>
+        <span class="resource-link">查看 VOC →</span>
+      </a>
+      <a href="https://sellercentral.amazon.com/fba-returns" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(0,168,225,.15)">📊</div>
+        <h4>FBA 退货页面</h4>
+        <p>查看退货订单详情、下载退货报告、分析退货原因，追踪部分退款和仅退款状态。</p>
+        <span class="resource-link">查看退货 →</span>
+      </a>
+      <a href="https://sellercentral.amazon.com/help/hub/reference/GZJF4DYPN2QQPNMS" target="_blank" class="resource-card">
+        <div class="resource-icon" style="background:rgba(168,85,247,.15)">📋</div>
+        <h4>退货管理完整攻略</h4>
+        <p>从退货原因分析到价值回收的一站式退货管理指南，涵盖所有降低退货率的工具和方法。</p>
+        <span class="resource-link">查看攻略 →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>
+    本页面由您的亚马逊客户经理整理制作，仅供参考。<br>
+    具体功能详情和最新政策请以 <a href="https://sellercentral.amazon.com" target="_blank">亚马逊卖家平台</a> 官方信息为准。<br>
+    © 2026 Amazon. All rights reserved.
+  </p>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// Sticky nav shadow
+const nav = document.getElementById('stickyNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 100);
+});
+
+// Active nav link
+const sections = document.querySelectorAll('.feature-block, .resources-section');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 120;
+    if (window.scrollY >= top) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      const offset = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
