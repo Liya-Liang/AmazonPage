@@ -1,3 +1,5 @@
+<img src="https://visitor-badge.laobi.icu/badge?page_id=https://liya-liang.github.io/AmazonPage/fba-advisor-page/#strategy" alt="Visitors">
+
 # FBA 售后功能顾问页
 
 面向 FBA 卖家的顾问式说明页，介绍 BI、Parts、Partial Refund、Proactive MFI Claim 四大售后功能。
